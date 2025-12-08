@@ -1,0 +1,279 @@
+import type { BuildCommand, EnvironmentVariables, HeaderRule, SecurityHeaders } from './types'; // Assuming custom types are defined in a separate file
+
+interface RedirectRule {
+    source: string;
+    destination: string;
+    status?: number; // Default is 301 if not specified
+}
+
+interface CachingStrategy {
+    urlPattern: string;
+    headers: Array<{ key: string; value: string }>;
+    ttlSeconds: number;
+}
+
+interface VercelSettings {
+    buildCommand: BuildCommand;
+    outputDirectory: string;
+    redirects?: RedirectRule[];
+    headers?: SecurityHeaders[];
+    rewrites?: { source: string; destination: string }[];
+    cacheRules?: CachingStrategy[];
+}
+
+interface NetlifySettings {
+    buildCommand: BuildCommand;
+    publishDir: string;
+    redirects?: RedirectRule[];
+    headers?: SecurityHeaders[];
+    functions?: string;
+    environmentVariables?: EnvironmentVariables;
+}
+
+export const deployConfig = {
+  // Build commands
+  build: {
+    command: 'npm run build',
+    output: '.next/out'
+  },
+
+  // Environment variables template
+  env: {
+    NEXT_PUBLIC_API_URL: '',
+    API_KEY: ''
+  } as Record<string, string>,
+
+  // Redirect rules
+  redirects: [
+    { source: '/old-url', destination: '/new-url' },
+    { source: '/blog/:slug', destination: '/posts/:slug', status: 302 }
+  ] as RedirectRule[],
+
+  // Header security policies
+  headers: [
+    {
+      source: '/*',
+      headers: [
+        { key: 'strict-transport-security', value: 'max-age=63072000; includeSubDomains; preload' },
+        { key: 'x-frame-options', value: 'DENY' },
+        { key: 'x-content-type-options', value: 'nosniff' },
+        { key: 'referrer-policy', value: 'same-origin' },
+        { key: 'permissions-policy', value: 'camera=(), microphone=()' }
+      ]
+    }
+  ] as SecurityHeaders[],
+
+  // Caching strategies
+  cachingStrategies: [
+    {
+      urlPattern: '/api/*',
+      headers: [{ key: 'cache-control', value: 's-maxage=3600' }],
+      ttlSeconds: 1800
+    },
+    {
+      urlPattern: '/static/*',
+      headers: [{ key: 'cache-control', value: 'max-age=2592000, public' }],
+      ttlSeconds: 2592000
+    }
+  ] as CachingStrategy[],
+
+  // Framework-specific settings (Vercel/Netlify)
+  vercelSettings: {
+    buildCommand: 'npm run build',
+    outputDirectory: '.next/out',
+    redirects: [
+      { source: '/old-url', destination: '/new-url' },
+      { source: '/blog/:slug', destination: '/posts/:slug', status: 302 }
+    ],
+    headers: [
+      {
+        source: '/*',
+        headers: [
+          { key: 'strict-transport-security', value: 'max-age=63072000; includeSubDomains; preload' },
+          { key: 'x-frame-options', value: 'DENY' },
+          { key: 'x-content-type-options', value: 'nosniff' },
+          { key: 'referrer-policy', value: 'same-origin' },
+          { key: 'permissions-policy', value: 'camera=(), microphone=()' }
+        ]
+      }
+    ],
+    cacheRules: [
+      {
+        urlPattern: '/api/*',
+        headers: [{ key: 'cache-control', value: 's-maxage=3600' }],
+        ttlSeconds: 1800
+      },
+      {
+        urlPattern: '/static/*',
+        headers: [{ key: 'cache-control', value: 'max-age=2592000, public' }],
+        ttlSeconds: 2592000
+      }
+    ]
+  } as VercelSettings,
+
+  netlifySettings: {
+    buildCommand: 'npm run build',
+    publishDir: '.next/out',
+    redirects: [
+      { source: '/old-url', destination: '/new-url' },
+      { source: '/blog/:slug', destination: '/posts/:slug', status: 302 }
+    ],
+    headers: [
+      {
+        source: '/*',
+        headers: [
+          { key: 'strict-transport-security', value: 'max-age=63072000; includeSubDomains; preload' },
+          { key: 'x-frame-options', value: 'DENY' },
+          { key: 'x-content-type-options', value: 'nosniff' },
+          { key: 'referrer-policy', value: 'same-origin' },
+          { key: 'permissions-policy', value: 'camera=(), microphone=()' }
+        ]
+      }
+    ],
+    functions: './functions',
+    environmentVariables: {
+      NEXT_PUBLIC_API_URL: '',
+      API_KEY: ''
+    } as EnvironmentVariables
+  } as NetlifySettings
+} as const;
+
+import type { BuildCommand, EnvironmentVariables, HeaderRule, SecurityHeaders } from './types'; // Assuming custom types are defined in a separate file
+
+interface RedirectRule {
+    source: string;
+    destination: string;
+    status?: number; // Default is 301 if not specified
+}
+
+interface CachingStrategy {
+    urlPattern: string;
+    headers: Array<{ key: string; value: string }>;
+    ttlSeconds: number;
+}
+
+interface VercelSettings {
+    buildCommand: BuildCommand;
+    outputDirectory: string;
+    redirects?: RedirectRule[];
+    headers?: SecurityHeaders[];
+    rewrites?: { source: string; destination: string }[];
+    cacheRules?: CachingStrategy[];
+}
+
+interface NetlifySettings {
+    buildCommand: BuildCommand;
+    publishDir: string;
+    redirects?: RedirectRule[];
+    headers?: SecurityHeaders[];
+    functions?: string;
+    environmentVariables?: EnvironmentVariables;
+}
+
+export const deployConfig = {
+  // Build commands
+  build: {
+    command: 'npm run build',
+    output: '.next/out'
+  },
+
+  // Environment variables template
+  env: {
+    NEXT_PUBLIC_API_URL: '',
+    API_KEY: ''
+  } as Record<string, string>,
+
+  // Redirect rules
+  redirects: [
+    { source: '/old-url', destination: '/new-url' },
+    { source: '/blog/:slug', destination: '/posts/:slug', status: 302 }
+  ] as RedirectRule[],
+
+  // Header security policies
+  headers: [
+    {
+      source: '/*',
+      headers: [
+        { key: 'strict-transport-security', value: 'max-age=63072000; includeSubDomains; preload' },
+        { key: 'x-frame-options', value: 'DENY' },
+        { key: 'x-content-type-options', value: 'nosniff' },
+        { key: 'referrer-policy', value: 'same-origin' },
+        { key: 'permissions-policy', value: 'camera=(), microphone=()' }
+      ]
+    }
+  ] as SecurityHeaders[],
+
+  // Caching strategies
+  cachingStrategies: [
+    {
+      urlPattern: '/api/*',
+      headers: [{ key: 'cache-control', value: 's-maxage=3600' }],
+      ttlSeconds: 1800
+    },
+    {
+      urlPattern: '/static/*',
+      headers: [{ key: 'cache-control', value: 'max-age=2592000, public' }],
+      ttlSeconds: 2592000
+    }
+  ] as CachingStrategy[],
+
+  // Framework-specific settings (Vercel/Netlify)
+  vercelSettings: {
+    buildCommand: 'npm run build',
+    outputDirectory: '.next/out',
+    redirects: [
+      { source: '/old-url', destination: '/new-url' },
+      { source: '/blog/:slug', destination: '/posts/:slug', status: 302 }
+    ],
+    headers: [
+      {
+        source: '/*',
+        headers: [
+          { key: 'strict-transport-security', value: 'max-age=63072000; includeSubDomains; preload' },
+          { key: 'x-frame-options', value: 'DENY' },
+          { key: 'x-content-type-options', value: 'nosniff' },
+          { key: 'referrer-policy', value: 'same-origin' },
+          { key: 'permissions-policy', value: 'camera=(), microphone=()' }
+        ]
+      }
+    ],
+    cacheRules: [
+      {
+        urlPattern: '/api/*',
+        headers: [{ key: 'cache-control', value: 's-maxage=3600' }],
+        ttlSeconds: 1800
+      },
+      {
+        urlPattern: '/static/*',
+        headers: [{ key: 'cache-control', value: 'max-age=2592000, public' }],
+        ttlSeconds: 2592000
+      }
+    ]
+  } as VercelSettings,
+
+  netlifySettings: {
+    buildCommand: 'npm run build',
+    publishDir: '.next/out',
+    redirects: [
+      { source: '/old-url', destination: '/new-url' },
+      { source: '/blog/:slug', destination: '/posts/:slug', status: 302 }
+    ],
+    headers: [
+      {
+        source: '/*',
+        headers: [
+          { key: 'strict-transport-security', value: 'max-age=63072000; includeSubDomains; preload' },
+          { key: 'x-frame-options', value: 'DENY' },
+          { key: 'x-content-type-options', value: 'nosniff' },
+          { key: 'referrer-policy', value: 'same-origin' },
+          { key: 'permissions-policy', value: 'camera=(), microphone=()' }
+        ]
+      }
+    ],
+    functions: './functions',
+    environmentVariables: {
+      NEXT_PUBLIC_API_URL: '',
+      API_KEY: ''
+    } as EnvironmentVariables
+  } as NetlifySettings
+} as const;

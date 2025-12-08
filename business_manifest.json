@@ -1,0 +1,37 @@
+{
+  "name": "MindScribe",
+  "type": "content",
+  "description": "MindScribe is an AI-driven mental health and personal finance app that helps users manage stress by providing tailored financial advice based on their mental well-being data.",
+  "generated_at": "2025-12-07T06:50:05.326696",
+  "components": [
+    "spec",
+    "build",
+    "deploy",
+    "spec_requirements",
+    "spec_architecture",
+    "build_code",
+    "build_test"
+  ],
+  "files_written": [
+    "businesses\\production_test\\content\\mindscribe\\src\\components\\component.tsx",
+    "businesses\\production_test\\content\\mindscribe\\__tests__\\component.test.tsx",
+    "businesses\\production_test\\content\\mindscribe\\vercel.json",
+    "businesses\\production_test\\content\\mindscribe\\src\\components\\requirements.tsx",
+    "businesses\\production_test\\content\\mindscribe\\__tests__\\architecture.test.tsx",
+    "businesses\\production_test\\content\\mindscribe\\vercel.json",
+    "businesses\\production_test\\content\\mindscribe\\src\\components\\test.tsx",
+    "businesses\\production_test\\content\\mindscribe\\src\\app\\layout.tsx",
+    "businesses\\production_test\\content\\mindscribe\\src\\app\\globals.css",
+    "businesses\\production_test\\content\\mindscribe\\src\\app\\page.tsx"
+  ],
+  "tasks_completed": 7,
+  "tasks_failed": 0,
+  "ap2_estimated_cost": 45.2,
+  "ap2_estimated_tokens": 19500,
+  "ap2_generation_approval": null,
+  "infrastructure_approvals": {
+    "analytics": null,
+    "database": null,
+    "storage": null
+  }
+}
